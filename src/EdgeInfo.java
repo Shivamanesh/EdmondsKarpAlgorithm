@@ -2,34 +2,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodeInfo {
+public class EdgeInfo {
     Converter converter = new Converter();
-    List<int[]> allNodesInfo = converter.convert();
+    List<int[]> allEdgesInfoInt = converter.convert();
     int numOfEdges = converter.convert().size();
+    int[] edge;
 
-    public NodeInfo() throws IOException {
+    public EdgeInfo() throws IOException {
     }
 
     public int getSource() {
-        return allNodesInfo.get(0)[0];
+        return allEdgesInfoInt.get(0)[0] - 1;
     }
 
-    ////ERROR !
     public int getSink() {
-        return allNodesInfo.get(numOfEdges - 1)[1];
+        return allEdgesInfoInt.get(getNumOfNodes())[1] - 1;
     }
 
-    public int[] eachEdge() {
-        int[] edge = new int[0];
-        for (int i = 0; i < allNodesInfo.size(); i++) {
-           edge = allNodesInfo.get(i);
-        }
-        return edge; //consists of tail, head, capacity
+    public int[] eachEdge(int i) {
+        return allEdgesInfoInt.get(i);
     }
+
 
     public List<Integer> getAllHeads(){
         List<Integer> allHeads = new ArrayList<>();
-        for (int[] iThEdge : allNodesInfo) {
+        for (int[] iThEdge : allEdgesInfoInt) {
             int head = iThEdge[1];
             allHeads.add(head);
         }
@@ -38,7 +35,7 @@ public class NodeInfo {
 
     public List<Integer> getAllTails(){
         List<Integer> allTails = new ArrayList<>();
-        for (int[] iThEdge : allNodesInfo) {
+        for (int[] iThEdge : allEdgesInfoInt) {
             int tail = iThEdge[0];
             allTails.add(tail);
         }
@@ -60,5 +57,6 @@ public class NodeInfo {
         }
         return Math.max(maxHead, maxTail);
         }
+
 }
 

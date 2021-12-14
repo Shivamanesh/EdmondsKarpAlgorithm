@@ -7,12 +7,12 @@ public class Converter extends RuntimeException {
         List<int[]> listOfIntegers = new ArrayList<>();
         for (String s : dataReader.readFiles()) {
             String[] splitStringInfo = s.split(";");
-            int[] integerFormOfInfo = new int[splitStringInfo.length];
+            int[] eachEdgeInfoInt = new int[splitStringInfo.length];
             for (int i = 0; i < splitStringInfo.length; i++) {
                 int parsedInt = Integer.parseInt(splitStringInfo[i]);
-                integerFormOfInfo[i] = parsedInt;
+                eachEdgeInfoInt[i] = parsedInt;
             }
-            listOfIntegers.add(integerFormOfInfo);
+            listOfIntegers.add(eachEdgeInfoInt);
         }
         return listOfIntegers;
     }

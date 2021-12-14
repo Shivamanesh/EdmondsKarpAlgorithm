@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataReader {
-    List<String> eachEdgeInfo = new ArrayList<>();
+    List<String> eachEdgeInfoString = new ArrayList<>();
 
     public List<String> readFiles() throws IOException {
         File file = new File("src/network1.txt");
@@ -15,10 +15,10 @@ public class DataReader {
         String line1 = null;
         while((line1 = reader.readLine()) != null) {
             System.out.println(line1);
-            eachEdgeInfo.add(line1);
+            eachEdgeInfoString.add(line1);
         }
         reader.close();
-        return eachEdgeInfo;
+        return eachEdgeInfoString;
     }
 
 }
