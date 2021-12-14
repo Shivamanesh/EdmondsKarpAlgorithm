@@ -14,7 +14,7 @@ public class DataReader {
         reader.readLine();
         String line1 = null;
         while((line1 = reader.readLine()) != null) {
-            System.out.println(line1);
+            //System.out.println(line1);
             eachEdgeInfoString.add(line1);
         }
         reader.close();

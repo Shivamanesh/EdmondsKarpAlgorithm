@@ -1,11 +1,7 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NetworkFlowSolverBase{
-
-    // To avoid overflow, set infinity to a value less than Long.MAX_VALUE;
-
+public abstract class NetworkFlow {
     public static class Edge {
         int tail;
         int head;
@@ -38,20 +34,11 @@ public abstract class NetworkFlowSolverBase{
             flow += bottleNeck;
             residual.flow -= bottleNeck;
         }
-
-        public String toString(int source, int sink) {
-            String u = (tail == source) ? "s" : ((tail == sink) ? "t" : String.valueOf(tail));
-            String v = (head == source) ? "s" : ((head == sink) ? "t" : String.valueOf(head));
-            return String.format(
-                    "Edge %s -> %s | flow = %d | capacity = %d | is residual: %s",
-                    u, v, flow, capacity, isResidual());
-        }
     }
 
     int numOfNodes, source, sink;
 
     protected long maxFlow;
-    protected long minCost;
 
     protected boolean[] minCut;
     protected List<Edge>[] graph;
@@ -67,15 +54,7 @@ public abstract class NetworkFlowSolverBase{
     // run the solver multiple times, because it always yields the same result.
     private boolean solved;
 
-    /**
-     * Creates an instance of a flow network solver. Use the {@link #addEdge} method to add edges to
-     * the graph.
-     *
-     * @param numOfNodes - The number of nodes in the graph including source and sink nodes.
-     * @param source - 0 <= source < n
-     * @param sink - 0 <= sink < n, sink != s
-     */
-    public NetworkFlowSolverBase(int numOfNodes, int source, int sink) {
+    public NetworkFlow(int numOfNodes, int source, int sink) {
         this.numOfNodes = numOfNodes;
         this.source = source;
         this.sink = sink;
@@ -84,7 +63,7 @@ public abstract class NetworkFlowSolverBase{
         visited = new int[numOfNodes];
     }
 
-    // Construct an empty graph with n nodes including the source and sink nodes.
+    //an empty graph
     @SuppressWarnings("unchecked")
     private void initializeGraph() {
         graph = new List[numOfNodes];
@@ -101,17 +80,8 @@ public abstract class NetworkFlowSolverBase{
         graph[head].add(e2);
     }
 
-    /* Cost variant of {@link #addEdge(int, int, int)} for min-cost max-flow */
-    public void addEdge(int tail, int head, int capacity, long cost) {
-        Edge e1 = new Edge(tail, head, capacity, cost);
-        Edge e2 = new Edge(head, tail, 0, -cost);
-        e1.residual = e2;
-        e2.residual = e1;
-        graph[tail].add(e1);
-        graph[head].add(e2);
-    }
 
-    // Marks node 'i' as visited.
+    // we have visited node i
     public void visit(int i) {
         visited[i] = visitedToken;
     }
@@ -127,38 +97,13 @@ public abstract class NetworkFlowSolverBase{
         visitedToken++;
     }
 
-    /**
-     * Returns the graph after the solver has been executed. This allow you to inspect the {@link
-     * Edge#flow} compared to the {@link Edge#capacity} in each edge. This is useful if you want to
-     * figure out which edges were used during the max flow.
-     */
-    public List<Edge>[] getGraph() {
-        execute();
-        return graph;
-    }
-
     // Returns the maximum flow from the source to the sink.
     public long getMaxFlow() {
         execute();
         return maxFlow;
     }
 
-    // Returns the min cost from the source to the sink.
-    // NOTE: This method only applies to min-cost max-flow algorithms.
-    public long getMinCost() {
-        execute();
-        return minCost;
-    }
-
-    // Returns the min-cut of this flow network in which the nodes on the "left side"
-    // of the cut with the source are marked as true and those on the "right side"
-    // of the cut with the sink are marked as false.
-    public boolean[] getMinCut() {
-        execute();
-        return minCut;
-    }
-
-    // Wrapper method that ensures we only call solve() once
+    //method that checks we only call solve() once
     private void execute() {
         if (solved) return;
         solved = true;

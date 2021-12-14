@@ -1,19 +1,9 @@
 import static java.lang.Math.min;
 import java.util.*;
-public class EdmondsKarp extends NetworkFlowSolverBase {
-    /*
-     * Creates an instance of a flow network solver. Use the {@link #addEdge(int, int, int)} method to
-     * add edges to the graph.
-     *
-     * @param n - The number of nodes in the graph including source and sink nodes.
-     * @param s - The index of the source node, 0 <= s < n
-     * @param t - The index of the sink node, 0 <= t < n, t != s
-     */
+public class EdmondsKarp extends NetworkFlow {
     public EdmondsKarp(int numOfNodes, int source, int sink){
         super(numOfNodes, source, sink);
     }
-
-    // Run Edmonds-Karp and compute the max flow from the source to the sink node.
     @Override
     public void solve() {
         long flow;
@@ -34,7 +24,7 @@ public class EdmondsKarp extends NetworkFlowSolverBase {
         visit(source);
         q.offer(source);
 
-        // Perform BFS from source to sink
+        // BFS
         while (!q.isEmpty()) {
             int node = q.poll();
             if (node == sink) break;
@@ -49,7 +39,7 @@ public class EdmondsKarp extends NetworkFlowSolverBase {
             }
         }
 
-        // Sink not reachable!
+        // Sink not reachable
         if (prev[sink] == null) return 0;
 
         long bottleNeck = Long.MAX_VALUE;
