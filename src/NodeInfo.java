@@ -1,55 +1,64 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class NodeInfo {
-
-    //final int numOfNodes;
     Converter converter = new Converter();
+    List<int[]> allNodesInfo = converter.convert();
     int numOfEdges = converter.convert().size();
-    int[] iThEdge;
-    int tail;
-    int head;
-    long capacity;
-    int source;
-    int sink;
-    List<Integer> allHeads = new ArrayList<>();
-    List<Integer> allTails = new ArrayList<>();
 
     public NodeInfo() throws IOException {
     }
 
-
-    public void nodeInformation(List<int[]> allNodesInfo) throws IOException {
-        allNodesInfo = converter.convert();
-        source = allNodesInfo.get(0)[0];
-        sink = allNodesInfo.get(numOfEdges)[1];
-        for (int i = 0; i < numOfEdges; i++) {
-            iThEdge = allNodesInfo.get(i);
-            tail = iThEdge[0];
-            head = iThEdge[1];
-            capacity = iThEdge[2];
-            allHeads.add(head);
-            allTails.add(tail);
-            System.out.println("[tail, head, capacity]: " + Arrays.toString(iThEdge) + "\ntail: " + tail + ", head: " + head + ", capacity: " + capacity);
-        }
+    public int getSource() {
+        return allNodesInfo.get(0)[0];
     }
 
-    public int getNumOfNodes(){
-        int maxHead = 0;
-        int maxTail = 0;
-        for (int i = 0; i < allHeads.size(); i++) {
-            if(allHeads.get(i) > maxHead){
-                maxHead = allHeads.get(i);
+    ////ERROR !
+    public int getSink() {
+        return allNodesInfo.get(numOfEdges - 1)[1];
+    }
+
+    public int[] eachEdge() {
+        int[] edge = new int[0];
+        for (int i = 0; i < allNodesInfo.size(); i++) {
+           edge = allNodesInfo.get(i);
+        }
+        return edge; //consists of tail, head, capacity
+    }
+
+    public List<Integer> getAllHeads(){
+        List<Integer> allHeads = new ArrayList<>();
+        for (int[] iThEdge : allNodesInfo) {
+            int head = iThEdge[1];
+            allHeads.add(head);
+        }
+        return allHeads;
+    }
+
+    public List<Integer> getAllTails(){
+        List<Integer> allTails = new ArrayList<>();
+        for (int[] iThEdge : allNodesInfo) {
+            int tail = iThEdge[0];
+            allTails.add(tail);
+        }
+        return allTails;
+    }
+
+    public int getNumOfNodes() {
+            int maxHead = 0;
+            int maxTail = 0;
+        for (Integer allHead : getAllHeads()) {
+            if (allHead > maxHead) {
+                maxHead = allHead;
             }
         }
-        for (int i = 0; i < allTails.size(); i++) {
-            if(allTails.get(i) > maxTail){
-                maxTail = allTails.get(i);
+        for (Integer allTail : getAllTails()) {
+            if (allTail > maxTail) {
+                maxTail = allTail;
             }
         }
         return Math.max(maxHead, maxTail);
-    }
+        }
 }
 

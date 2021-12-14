@@ -1,10 +1,6 @@
 import static java.lang.Math.min;
-import java.io.IOException;
 import java.util.*;
 public class EdmondsKarp extends NetworkFlowSolverBase {
-
-    NodeInfo nodeInfo = new NodeInfo();
-
     /*
      * Creates an instance of a flow network solver. Use the {@link #addEdge(int, int, int)} method to
      * add edges to the graph.
@@ -13,7 +9,7 @@ public class EdmondsKarp extends NetworkFlowSolverBase {
      * @param s - The index of the source node, 0 <= s < n
      * @param t - The index of the sink node, 0 <= t < n, t != s
      */
-    public EdmondsKarp(int numOfNodes, int source, int sink) throws IOException {
+    public EdmondsKarp(int numOfNodes, int source, int sink){
         super(numOfNodes, source, sink);
     }
 
@@ -69,34 +65,4 @@ public class EdmondsKarp extends NetworkFlowSolverBase {
         return bottleNeck;
     }
 
-
-//    public static void main(String[] args) throws IOException {
-//        testSmallFlowGraph();
-//    }
-//
-//    private static void testSmallFlowGraph() throws IOException {
-//        int n = 6;
-//        int source = n - 1;
-//        int sink = n - 2;
-//
-//        EdmondsKarp solver;
-//        solver = new EdmondsKarp(n, source, sink);
-//
-//        // Source edges
-//        solver.addEdge(source, 0, 10);
-//        solver.addEdge(source, 1, 10);
-//
-//        // Sink edges
-//        solver.addEdge(2, sink, 10);
-//        solver.addEdge(3, sink, 10);
-//
-//        // Middle edges
-//        solver.addEdge(0, 1, 2);
-//        solver.addEdge(0, 2, 4);
-//        solver.addEdge(0, 3, 8);
-//        solver.addEdge(1, 3, 9);
-//        solver.addEdge(3, 2, 6);
-//
-//        System.out.println(solver.getMaxFlow()); // 19
-//    }
 }

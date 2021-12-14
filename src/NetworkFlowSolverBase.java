@@ -12,14 +12,14 @@ public abstract class NetworkFlowSolverBase{
         Edge residual;
         long flow;
         long cost;
-        long capacity;
+        int capacity;
         long originalCost;
 
-        public Edge(int tail, int head, long capacity) {
+        public Edge(int tail, int head, int capacity) {
             this(tail, head, capacity, 0 /* unused */);
         }
 
-        public Edge(int tail, int head, long capacity, long cost) {
+        public Edge(int tail, int head, int capacity, long cost) {
             this.tail = tail;
             this.head = head;
             this.capacity = capacity;
@@ -91,14 +91,7 @@ public abstract class NetworkFlowSolverBase{
         for (int i = 0; i < numOfNodes; i++) graph[i] = new ArrayList<Edge>();
     }
 
-    /**
-     * Adds a directed edge (and residual edge) to the flow graph.
-     *
-     * @param tail - The index of the node the directed edge starts at.
-     * @param head - The index of the node the directed edge ends at.
-     * @param capacity - The capacity of the edge.
-     */
-    public void addEdge(int tail, int head, long capacity) {
+    public void addEdge(int tail, int head, int capacity) {
         if (capacity < 0) throw new IllegalArgumentException("Capacity < 0");
         Edge e1 = new Edge(tail, head, capacity);
         Edge e2 = new Edge(head, tail, 0);
@@ -109,7 +102,7 @@ public abstract class NetworkFlowSolverBase{
     }
 
     /* Cost variant of {@link #addEdge(int, int, int)} for min-cost max-flow */
-    public void addEdge(int tail, int head, long capacity, long cost) {
+    public void addEdge(int tail, int head, int capacity, long cost) {
         Edge e1 = new Edge(tail, head, capacity, cost);
         Edge e2 = new Edge(head, tail, 0, -cost);
         e1.residual = e2;
