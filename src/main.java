@@ -1,10 +1,10 @@
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
 public class main {
 
     public static void main(String[] args) throws IOException {
-        EdgeInfo edgeInfo = new EdgeInfo();
+        EdgeInfo edgeInfo = getEdgeInfo();
         int n = edgeInfo.getNumOfNodes();
         int s = edgeInfo.getSource();
         int t = edgeInfo.getSink();
@@ -12,8 +12,7 @@ public class main {
         int head = 0;
         int capacity = 0;
         EdmondsKarp edmondsKarp = new EdmondsKarp(n, s, t);
-        for (int i = 0; i < edgeInfo.numOfEdges; i++) {
-
+        for (int i = 0; i < edgeInfo.getNumOfEdges(); i++) {
             tail = edgeInfo.eachEdge(i)[0] - 1;
             System.out.println(tail + "tail" + i);
             head = edgeInfo.eachEdge(i)[1] - 1;
@@ -33,5 +32,14 @@ public class main {
 //        edmondsKarp.addEdge(6, 7, 30);
         edmondsKarp.solve();
         System.out.println(edmondsKarp.getMaxFlow());
+    }
+
+    private static EdgeInfo getEdgeInfo() throws IOException {
+        DataReader dataReader = new DataReader();
+        Converter converter = new Converter();
+        List<String> linesInFile = dataReader.readFiles();
+        List<int[]> allEdgesInfoInt = converter.convert(linesInFile);
+        EdgeInfo edgeInfo = new EdgeInfo(allEdgesInfoInt);
+        return edgeInfo;
     }
 }

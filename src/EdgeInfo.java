@@ -3,12 +3,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EdgeInfo {
-    Converter converter = new Converter();
-    List<int[]> allEdgesInfoInt = converter.convert();
-    int numOfEdges = converter.convert().size();
+    final List<int[]> allEdgesInfoInt;
     int[] edge;
 
-    public EdgeInfo() throws IOException {
+    public EdgeInfo(List<int[]> allEdgesInfoInt){
+        this.allEdgesInfoInt = allEdgesInfoInt;
+    }
+
+    int getNumOfEdges() {
+        return allEdgesInfoInt.size();
     }
 
     public int getSource() {
